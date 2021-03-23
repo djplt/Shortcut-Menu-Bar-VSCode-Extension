@@ -82,6 +82,27 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "shortcut-menu-bar",
+          "title": "Shortcut Menu Bar",
+          "icon": "images/menubar.svg"
+        }
+      ]
+    },
+    "views": {
+      "shortcut-menu-bar": [
+        {
+          "id": "default",
+          "name": "Defaults"
+        },
+        {
+          "id": "custom",
+          "name": "Custom"
+        }
+      ]
+    },
     "configuration": [
       {
         "title": "Shortcut Menu Bar configuration",
