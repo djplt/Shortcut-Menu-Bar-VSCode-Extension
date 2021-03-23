@@ -103,6 +103,12 @@
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "default",
+        "contents": "[Navigate back](command:ShortcutMenuBar.navigateBack)\n[Navigate forward](command:ShortcutMenuBar.navigateForward)"
+      }
+    ],
     "configuration": [
       {
         "title": "Shortcut Menu Bar configuration",
