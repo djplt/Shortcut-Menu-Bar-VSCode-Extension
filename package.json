@@ -44,41 +44,7 @@
     "button"
   ],
   "activationEvents": [
-    "onCommand:ShortcutMenuBar.navigateBack",
-    "onCommand:ShortcutMenuBar.navigateForward",
-    "onCommand:ShortcutMenuBar.switchHeaderSource",
-    "onCommand:ShortcutMenuBar.save",
-    "onCommand:ShortcutMenuBar.beautify",
-    "onCommand:ShortcutMenuBar.toggleRenderWhitespace",
-    "onCommand:ShortcutMenuBar.openFilesList",
-    "onCommand:ShortcutMenuBar.toggleTerminal",
-    "onCommand:ShortcutMenuBar.toggleActivityBar",
-    "onCommand:ShortcutMenuBar.quickOpen",
-    "onCommand:ShortcutMenuBar.findReplace",
-    "onCommand:ShortcutMenuBar.undo",
-    "onCommand:ShortcutMenuBar.redo",
-    "onCommand:ShortcutMenuBar.commentLine",
-    "onCommand:ShortcutMenuBar.saveAll",
-    "onCommand:ShortcutMenuBar.formatWith",
-    "onCommand:ShortcutMenuBar.openFile",
-    "onCommand:ShortcutMenuBar.newFile",
-    "onCommand:ShortcutMenuBar.goToDefinition",
-    "onCommand:ShortcutMenuBar.cut",
-    "onCommand:ShortcutMenuBar.copy",
-    "onCommand:ShortcutMenuBar.paste",
-    "onCommand:ShortcutMenuBar.compareWithSaved",
-    "onCommand:ShortcutMenuBar.showCommands",
-    "onCommand:ShortcutMenuBar.startDebugging",
-    "onCommand:ShortcutMenuBar.userButton10",
-    "onCommand:ShortcutMenuBar.userButton01",
-    "onCommand:ShortcutMenuBar.userButton02",
-    "onCommand:ShortcutMenuBar.userButton03",
-    "onCommand:ShortcutMenuBar.userButton04",
-    "onCommand:ShortcutMenuBar.userButton05",
-    "onCommand:ShortcutMenuBar.userButton06",
-    "onCommand:ShortcutMenuBar.userButton07",
-    "onCommand:ShortcutMenuBar.userButton08",
-    "onCommand:ShortcutMenuBar.userButton09"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -94,21 +60,15 @@
     "views": {
       "shortcut-menu-bar": [
         {
-          "id": "default",
+          "id": "shortcut-menu-bar-defaults",
           "name": "Defaults"
         },
         {
-          "id": "custom",
+          "id": "shortcut-menu-bar-custom",
           "name": "Custom"
         }
       ]
     },
-    "viewsWelcome": [
-      {
-        "view": "default",
-        "contents": "[Navigate back](command:ShortcutMenuBar.navigateBack)\n[Navigate forward](command:ShortcutMenuBar.navigateForward)"
-      }
-    ],
     "configuration": [
       {
         "title": "Shortcut Menu Bar configuration",
@@ -696,6 +656,24 @@
       }
     ],
     "menus": {
+      "view/item/context": [
+        {
+          "when": "view == shortcut-menu-bar-defaults && viewItem == 'Save' && config.ShortcutMenuBar.save",
+          "command": "ShortcutMenuBar.save",
+          "group": "inline"
+        },
+        {
+          "when": "view == shortcut-menu-bar-defaults && viewItem == 'Navigate back' && config.ShortcutMenuBar.navigateBack",
+          "command": "ShortcutMenuBar.navigateBack",
+          "group": "inline"
+        },
+        {
+          "when": "view == shortcut-menu-bar-defaults && viewItem == 'Navigate forward' && config.ShortcutMenuBar.navigateForward",
+          "command": "ShortcutMenuBar.navigateForward",
+          "group": "inline"
+        }
+
+      ],
       "editor/title": [
         {
           "when": "editorTextFocus && config.ShortcutMenuBar.switchHeaderSource",

@@ -31,6 +31,12 @@ import {
   extensions,
   env,
   Uri,
+  TreeDataProvider,
+  TreeItem,
+  ProviderResult,
+  Event,
+  TreeItemCollapsibleState,
+  Command,
 } from "vscode";
 import { basename, dirname, extname } from "path";
 
@@ -195,6 +201,7 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(disposableSwitch);
 
   // Adding 3 // user defined userButtons
+  let customCommands: string[] = [];
   for (let index = 1; index <= 10; index++) {
     const printIndex = index !== 10 ? "0" + index : "" + index;
     let action = "userButton" + printIndex;
@@ -220,9 +227,58 @@ export function activate(context: ExtensionContext) {
       }
     );
     context.subscriptions.push(disposableUserButtonCommand);
+    customCommands.push(action);
   }
 
   //also update userButton in package.json.. see "Adding new userButtons" in help.md file
+
+  const a = extensions.getExtension("jerrygoyal.shortcut-menu-bar");
+  console.log(a);
+  const defaultCommands = ["Save", "Navigate back", "Navigate forward"];
+  window.registerTreeDataProvider('shortcut-menu-bar-defaults', new ShortcutTreeDataProvider(defaultCommands));
+  // window.registerTreeDataProvider('shortcut-menu-bar-custom', new ShortcutTreeDataProvider(defaultCommands));
+  const customTree = window.createTreeView('shortcut-menu-bar-custom', {treeDataProvider: new ShortcutTreeDataProvider(customCommands)});
+  customTree.onDidChangeSelection( e => {
+    console.log(e);
+    
+  });
+
+}
+
+class ShortcutTreeDataProvider implements TreeDataProvider<TreeItem> {
+  onDidChangeTreeData?: Event<TreeItem|null|undefined>|undefined;
+
+  data: ShortcutTreeItem[];
+
+  constructor(commands: string[]) {
+    this.data = commands.map(cmd => new ShortcutTreeItem(cmd));
+  }
+
+  getTreeItem(element: ShortcutTreeItem): TreeItem|Thenable<TreeItem> {
+    console.log(element);
+    return element;
+  }
+
+  getChildren(element?: ShortcutTreeItem|undefined): ProviderResult<TreeItem[]> {
+    if (element === undefined) {
+      return this.data;
+    }
+    return element.children;
+  }
+}
+
+class ShortcutTreeItem extends TreeItem {
+  children: TreeItem[]|undefined;
+
+  constructor(label: string, children?: TreeItem[]) {
+    super(
+        label,
+        children === undefined ? TreeItemCollapsibleState.None :
+                                 TreeItemCollapsibleState.Expanded);
+    this.children = children;
+    this.contextValue = label;
+    this.command = {title: label, command: "ShortcutMenuBar.showCommands"};
+  }
 }
 
 // this method is called when your extension is deactivated
