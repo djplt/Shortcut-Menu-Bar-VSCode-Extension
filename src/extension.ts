@@ -209,26 +209,25 @@ export function activate(context: ExtensionContext) {
     const printIndex = index !== 10 ? "0" + index : "" + index;
     let action = "userButton" + printIndex;
     let actionName = "ShortcutMenuBar." + action;
+    let configName = action + "Command";
+    const command = config.get<String>(configName);
+
+    // skip userButtons not set
+    if (
+      command === null ||
+      command === undefined ||
+      command.trimEnd() === ""
+    ) {
+      continue;
+    }
     let disposableUserButtonCommand = commands.registerCommand(
       actionName,
       () => {
-        let configName = action + "Command";
-        const command = config.get<String>(configName);
-
-        // skip userButtons not set
-        if (
-          command === null ||
-          command === undefined ||
-          command.trimEnd() === ""
-        ) {
-          return;
-        }
-
         const palettes = command.split(",");
         executeNext(action, palettes, 0);
       }
     );
-    let configName = action + "CommandAlias";
+    configName = action + "CommandAlias";
     const cmdAlias = config.get<string>(configName) || configName;
     context.subscriptions.push(disposableUserButtonCommand);
     customCommands.push({title: cmdAlias, command: actionName, tooltip: "images/userButton"+printIndex+".svg"});
