@@ -229,11 +229,23 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 1'; _icon is shown if set_"
           },
+          "ShortcutMenuBar.userButton01CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 1",
+            "markdownDescription": "'user action 1' command alias"
+          },
           "ShortcutMenuBar.userButton02Command": {
             "title": "command",
             "type": "string",
             "default": null,
             "markdownDescription": "command executed with 'user action 2'; _icon is shown if set_"
+          },
+          "ShortcutMenuBar.userButton02CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 2",
+            "markdownDescription": "'user action 2' command alias"
           },
           "ShortcutMenuBar.userButton03Command": {
             "title": "command",
@@ -241,11 +253,23 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 3'; _icon is shown if set_"
           },
+          "ShortcutMenuBar.userButton03CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 3",
+            "markdownDescription": "'user action 3' command alias"
+          },
           "ShortcutMenuBar.userButton04Command": {
             "title": "command",
             "type": "string",
             "default": null,
             "markdownDescription": "command executed with 'user action 4'; _icon is shown if set_"
+          },
+          "ShortcutMenuBar.userButton04CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 4",
+            "markdownDescription": "'user action 4' command alias"
           },
           "ShortcutMenuBar.userButton05Command": {
             "title": "command",
@@ -253,11 +277,23 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 5'; _icon is shown if set_"
           },
+          "ShortcutMenuBar.userButton05CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 5",
+            "markdownDescription": "'user action 5' command alias"
+          },
           "ShortcutMenuBar.userButton06Command": {
             "title": "command",
             "type": "string",
             "default": null,
             "markdownDescription": "command executed with 'user action 6'; _icon is shown if set_"
+          },
+          "ShortcutMenuBar.userButton06CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 6",
+            "markdownDescription": "'user action 6' command alias"
           },
           "ShortcutMenuBar.userButton07Command": {
             "title": "command",
@@ -265,11 +301,23 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 7'; _icon is shown if set_"
           },
+          "ShortcutMenuBar.userButton07CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 7",
+            "markdownDescription": "'user action 7' command alias"
+          },
           "ShortcutMenuBar.userButton08Command": {
             "title": "command",
             "type": "string",
             "default": null,
             "markdownDescription": "command executed with 'user action 8'; _icon is shown if set_"
+          },
+          "ShortcutMenuBar.userButton08CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 8",
+            "markdownDescription": "'user action 8' command alias"
           },
           "ShortcutMenuBar.userButton09Command": {
             "title": "command",
@@ -277,11 +325,23 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 9'; _icon is shown if set_"
           },
+          "ShortcutMenuBar.userButton09CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 9",
+            "markdownDescription": "'user action 9' command alias"
+          },
           "ShortcutMenuBar.userButton10Command": {
             "title": "command",
             "type": "string",
             "default": null,
             "markdownDescription": "command executed with 'user action 0'; _icon is shown if set_"
+          },
+          "ShortcutMenuBar.userButton10CommandAlias": {
+            "title": "command",
+            "type": "string",
+            "default": "User Action 10",
+            "markdownDescription": "'user action 10' command alias"
           }
         }
       }

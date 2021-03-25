@@ -39,6 +39,7 @@ import {
   Command,
 } from "vscode";
 import { basename, dirname, extname } from "path";
+import path = require("path");
 
 var init = false;
 var hasCpp = false;
@@ -201,15 +202,16 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(disposableSwitch);
 
   // Adding 3 // user defined userButtons
-  let customCommands: string[] = [];
+  let customCommandLabels: string[] = [];
+  let customCommands: Command[] = [];
   for (let index = 1; index <= 10; index++) {
+    const config = workspace.getConfiguration("ShortcutMenuBar");
     const printIndex = index !== 10 ? "0" + index : "" + index;
     let action = "userButton" + printIndex;
     let actionName = "ShortcutMenuBar." + action;
     let disposableUserButtonCommand = commands.registerCommand(
       actionName,
       () => {
-        const config = workspace.getConfiguration("ShortcutMenuBar");
         let configName = action + "Command";
         const command = config.get<String>(configName);
 
@@ -226,16 +228,20 @@ export function activate(context: ExtensionContext) {
         executeNext(action, palettes, 0);
       }
     );
+    let configName = action + "CommandAlias";
+    const cmdAlias = config.get<string>(configName) || configName;
     context.subscriptions.push(disposableUserButtonCommand);
-    customCommands.push(action);
+    customCommands.push({title: cmdAlias, command: actionName, tooltip: "images/userButton"+printIndex+".svg"});
   }
 
   //also update userButton in package.json.. see "Adding new userButtons" in help.md file
 
   const a = extensions.getExtension("jerrygoyal.shortcut-menu-bar");
   console.log(a);
-  const defaultCommands = ["Save", "Navigate back", "Navigate forward"];
-  window.registerTreeDataProvider('shortcut-menu-bar-defaults', new ShortcutTreeDataProvider(defaultCommands));
+  const config = workspace.getConfiguration("ShortcutMenuBar");
+  console.log(config);
+  // const defaultCommands = ["Save", "Navigate back", "Navigate forward"];
+  // window.registerTreeDataProvider('shortcut-menu-bar-defaults', new ShortcutTreeDataProvider(defaultCommands));
   // window.registerTreeDataProvider('shortcut-menu-bar-custom', new ShortcutTreeDataProvider(defaultCommands));
   const customTree = window.createTreeView('shortcut-menu-bar-custom', {treeDataProvider: new ShortcutTreeDataProvider(customCommands)});
   customTree.onDidChangeSelection( e => {
@@ -250,7 +256,7 @@ class ShortcutTreeDataProvider implements TreeDataProvider<TreeItem> {
 
   data: ShortcutTreeItem[];
 
-  constructor(commands: string[]) {
+  constructor(commands: Command[]) {
     this.data = commands.map(cmd => new ShortcutTreeItem(cmd));
   }
 
@@ -270,14 +276,11 @@ class ShortcutTreeDataProvider implements TreeDataProvider<TreeItem> {
 class ShortcutTreeItem extends TreeItem {
   children: TreeItem[]|undefined;
 
-  constructor(label: string, children?: TreeItem[]) {
-    super(
-        label,
-        children === undefined ? TreeItemCollapsibleState.None :
-                                 TreeItemCollapsibleState.Expanded);
-    this.children = children;
-    this.contextValue = label;
-    this.command = {title: label, command: "ShortcutMenuBar.showCommands"};
+  constructor(command: Command) {
+    super(command.title);
+    this.contextValue = command.title;
+    this.command = command;
+    this.iconPath = path.join(__filename, '..', '..', command.tooltip||'');
   }
 }
 
