@@ -44,7 +44,43 @@
     "button"
   ],
   "activationEvents": [
-    "*"
+    "onCommand:ShortcutMenuBar.navigateBack",
+    "onCommand:ShortcutMenuBar.navigateForward",
+    "onCommand:ShortcutMenuBar.switchHeaderSource",
+    "onCommand:ShortcutMenuBar.save",
+    "onCommand:ShortcutMenuBar.beautify",
+    "onCommand:ShortcutMenuBar.toggleRenderWhitespace",
+    "onCommand:ShortcutMenuBar.openFilesList",
+    "onCommand:ShortcutMenuBar.toggleTerminal",
+    "onCommand:ShortcutMenuBar.toggleActivityBar",
+    "onCommand:ShortcutMenuBar.quickOpen",
+    "onCommand:ShortcutMenuBar.findReplace",
+    "onCommand:ShortcutMenuBar.undo",
+    "onCommand:ShortcutMenuBar.redo",
+    "onCommand:ShortcutMenuBar.commentLine",
+    "onCommand:ShortcutMenuBar.saveAll",
+    "onCommand:ShortcutMenuBar.formatWith",
+    "onCommand:ShortcutMenuBar.openFile",
+    "onCommand:ShortcutMenuBar.newFile",
+    "onCommand:ShortcutMenuBar.goToDefinition",
+    "onCommand:ShortcutMenuBar.cut",
+    "onCommand:ShortcutMenuBar.copy",
+    "onCommand:ShortcutMenuBar.paste",
+    "onCommand:ShortcutMenuBar.compareWithSaved",
+    "onCommand:ShortcutMenuBar.showCommands",
+    "onCommand:ShortcutMenuBar.startDebugging",
+    "onCommand:ShortcutMenuBar.userButton10",
+    "onCommand:ShortcutMenuBar.userButton01",
+    "onCommand:ShortcutMenuBar.userButton02",
+    "onCommand:ShortcutMenuBar.userButton03",
+    "onCommand:ShortcutMenuBar.userButton04",
+    "onCommand:ShortcutMenuBar.userButton05",
+    "onCommand:ShortcutMenuBar.userButton06",
+    "onCommand:ShortcutMenuBar.userButton07",
+    "onCommand:ShortcutMenuBar.userButton08",
+    "onCommand:ShortcutMenuBar.userButton09",
+    "onView:shortcut-menu-bar-defaults",
+    "onView:shortcut-menu-bar-custom"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -229,7 +265,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 1'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton01CommandAlias": {
+          "ShortcutMenuBar.userButton01ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton01CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 1",
@@ -241,7 +283,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 2'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton02CommandAlias": {
+          "ShortcutMenuBar.userButton02ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton02CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 2",
@@ -253,7 +301,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 3'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton03CommandAlias": {
+          "ShortcutMenuBar.userButton03ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton03CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 3",
@@ -265,7 +319,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 4'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton04CommandAlias": {
+          "ShortcutMenuBar.userButton04ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton04CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 4",
@@ -277,7 +337,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 5'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton05CommandAlias": {
+          "ShortcutMenuBar.userButton05ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton05CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 5",
@@ -289,7 +355,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 6'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton06CommandAlias": {
+          "ShortcutMenuBar.userButton06ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton06CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 6",
@@ -301,7 +373,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 7'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton07CommandAlias": {
+          "ShortcutMenuBar.userButton07ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton07CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 7",
@@ -313,7 +391,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 8'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton08CommandAlias": {
+          "ShortcutMenuBar.userButton08ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton08CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 8",
@@ -325,7 +409,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 9'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton09CommandAlias": {
+          "ShortcutMenuBar.userButton09ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton09CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 9",
@@ -337,7 +427,13 @@
             "default": null,
             "markdownDescription": "command executed with 'user action 0'; _icon is shown if set_"
           },
-          "ShortcutMenuBar.userButton10CommandAlias": {
+          "ShortcutMenuBar.userButton10ShowInBar": { 
+            "title": "Show custom user button in shortcut bar",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Show userButton in shortcut bar; instead of just side bar"
+          },
+          "ShortcutMenuBar.userButton10CommandName": {
             "title": "command",
             "type": "string",
             "default": "User Action 10",
@@ -861,52 +957,52 @@
           "group": "navigation@25"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton01Command",
+          "when": "config.ShortcutMenuBar.userButton01Command && config.ShortcutMenuBar.userButton01ShowInBar",
           "command": "ShortcutMenuBar.userButton01",
           "group": "navigation@26"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton02Command",
+          "when": "config.ShortcutMenuBar.userButton02Command && config.ShortcutMenuBar.userButton02ShowInBar",
           "command": "ShortcutMenuBar.userButton02",
           "group": "navigation@27"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton03Command",
+          "when": "config.ShortcutMenuBar.userButton03Command && config.ShortcutMenuBar.userButton03ShowInBar",
           "command": "ShortcutMenuBar.userButton03",
           "group": "navigation@28"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton04Command",
+          "when": "config.ShortcutMenuBar.userButton04Command && config.ShortcutMenuBar.userButton04ShowInBar",
           "command": "ShortcutMenuBar.userButton04",
           "group": "navigation@29"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton05Command",
+          "when": "config.ShortcutMenuBar.userButton05Command && config.ShortcutMenuBar.userButton05ShowInBar",
           "command": "ShortcutMenuBar.userButton05",
           "group": "navigation@30"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton06Command",
+          "when": "config.ShortcutMenuBar.userButton06Command && config.ShortcutMenuBar.userButton06ShowInBar",
           "command": "ShortcutMenuBar.userButton06",
           "group": "navigation@31"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton07Command",
+          "when": "config.ShortcutMenuBar.userButton07Command && config.ShortcutMenuBar.userButton07ShowInBar",
           "command": "ShortcutMenuBar.userButton07",
           "group": "navigation@32"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton08Command",
+          "when": "config.ShortcutMenuBar.userButton08Command && config.ShortcutMenuBar.userButton08ShowInBar",
           "command": "ShortcutMenuBar.userButton08",
           "group": "navigation@33"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton09Command",
+          "when": "config.ShortcutMenuBar.userButton09Command && config.ShortcutMenuBar.userButton09ShowInBar",
           "command": "ShortcutMenuBar.userButton09",
           "group": "navigation@34"
         },
         {
-          "when": "config.ShortcutMenuBar.userButton10Command",
+          "when": "config.ShortcutMenuBar.userButton10Command && config.ShortcutMenuBar.userButton10ShowInBar",
           "command": "ShortcutMenuBar.userButton10",
           "group": "navigation@35"
         }

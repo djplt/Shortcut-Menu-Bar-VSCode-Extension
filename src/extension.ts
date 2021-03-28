@@ -37,9 +37,11 @@ import {
   Event,
   TreeItemCollapsibleState,
   Command,
+  EventEmitter,
 } from "vscode";
 import { basename, dirname, extname } from "path";
 import path = require("path");
+import { config } from "node:process";
 
 var init = false;
 var hasCpp = false;
@@ -227,60 +229,23 @@ export function activate(context: ExtensionContext) {
         executeNext(action, palettes, 0);
       }
     );
-    configName = action + "CommandAlias";
+    configName = action + "CommandName";
     const cmdAlias = config.get<string>(configName) || configName;
     context.subscriptions.push(disposableUserButtonCommand);
-    customCommands.push({title: cmdAlias, command: actionName, tooltip: "images/userButton"+printIndex+".svg"});
+    customCommands.push({title: cmdAlias, command: actionName, tooltip: "images/userButton" + printIndex + ".svg"});
   }
 
   //also update userButton in package.json.. see "Adding new userButtons" in help.md file
+  const t2 = activateTreeView();
 
-  const a = extensions.getExtension("jerrygoyal.shortcut-menu-bar");
-  console.log(a);
-  const config = workspace.getConfiguration("ShortcutMenuBar");
-  console.log(config);
-  // const defaultCommands = ["Save", "Navigate back", "Navigate forward"];
-  // window.registerTreeDataProvider('shortcut-menu-bar-defaults', new ShortcutTreeDataProvider(defaultCommands));
-  // window.registerTreeDataProvider('shortcut-menu-bar-custom', new ShortcutTreeDataProvider(defaultCommands));
-  const customTree = window.createTreeView('shortcut-menu-bar-custom', {treeDataProvider: new ShortcutTreeDataProvider(customCommands)});
-  customTree.onDidChangeSelection( e => {
-    console.log(e);
-    
-  });
-
-}
-
-class ShortcutTreeDataProvider implements TreeDataProvider<TreeItem> {
-  onDidChangeTreeData?: Event<TreeItem|null|undefined>|undefined;
-
-  data: ShortcutTreeItem[];
-
-  constructor(commands: Command[]) {
-    this.data = commands.map(cmd => new ShortcutTreeItem(cmd));
-  }
-
-  getTreeItem(element: ShortcutTreeItem): TreeItem|Thenable<TreeItem> {
-    console.log(element);
-    return element;
-  }
-
-  getChildren(element?: ShortcutTreeItem|undefined): ProviderResult<TreeItem[]> {
-    if (element === undefined) {
-      return this.data;
+	// Example: Listening to configuration changes
+	context.subscriptions.push(workspace.onDidChangeConfiguration(e => {
+    if (e.affectsConfiguration('ShortcutMenuBar')) {
+      t2.data = getUserCommands().map(cmd => new ShortcutTreeItem(cmd));
+      t2.refresh();
     }
-    return element.children;
-  }
-}
 
-class ShortcutTreeItem extends TreeItem {
-  children: TreeItem[]|undefined;
-
-  constructor(command: Command) {
-    super(command.title);
-    this.contextValue = command.title;
-    this.command = command;
-    this.iconPath = path.join(__filename, '..', '..', command.tooltip||'');
-  }
+	}));
 }
 
 // this method is called when your extension is deactivated
@@ -437,4 +402,103 @@ async function showWhatsNew(context: ExtensionContext) {
   } catch (e) {
     console.log("Error", e);
   }
+}
+
+function activateTreeView() {
+  const extensionConfig = extensions.getExtension(extensionId);
+
+  // Register the default commands
+  const defaultCommandsConfig = extensionConfig?.packageJSON.contributes.commands.filter(command => !command.command.startsWith('ShortcutMenuBar.userButton'));
+  const defaultCommands: Command[] = defaultCommandsConfig.map(cmd => {
+    cmd.tooltip = cmd.icon.dark;
+    delete cmd.icon;
+    delete cmd.category;
+    return cmd;
+  });
+  window.registerTreeDataProvider('shortcut-menu-bar-defaults', new ShortcutTreeDataProvider(defaultCommands));
+
+  // Register the user defined commands
+  const t2 = new ShortcutTreeDataProvider(getUserCommands());
+  window.registerTreeDataProvider('shortcut-menu-bar-custom', t2);
+  return t2;
+}
+
+function getUserCommands() {
+  // Register the user defined commands
+  const userConfig = workspace.getConfiguration("ShortcutMenuBar");
+  const extensionConfig = extensions.getExtension(extensionId);
+
+  const customCommandsConfig = extensionConfig?.packageJSON.contributes.commands
+    .filter(command => command.command.startsWith('ShortcutMenuBar.userButton'));
+
+  const customCommands: Command[] = customCommandsConfig
+    .map(cmdSource => {
+      const cmd = Object.assign({}, cmdSource);
+      const action = userConfig.get<string>(cmd.command.split('.').pop() + 'Command');
+      if (!action) {return;} // Don't show custom commands with no defined actions
+
+      cmd.tooltip = cmd.icon.dark;
+      delete cmd.icon;
+      delete cmd.category;
+      const userAlias = cmd.command.split('.').pop() + 'CommandName';
+      cmd.title = userConfig.get<string>(userAlias) || cmd.title; 
+      return cmd;
+    })
+    .filter(cmd => cmd);
+
+  return customCommands;
+}
+
+class ShortcutTreeDataProvider implements TreeDataProvider<TreeItem> {
+  
+  private _onDidChangeTreeData: EventEmitter<TreeItem | undefined> = new EventEmitter<TreeItem | undefined>();
+  
+  onDidChangeTreeData: Event<TreeItem|null|undefined>|undefined = this._onDidChangeTreeData.event;
+
+  data: ShortcutTreeItem[];
+
+  constructor(commands: Command[]) {
+    this.data = commands.map(cmd => new ShortcutTreeItem(cmd));
+  }
+
+  getTreeItem(element: ShortcutTreeItem): TreeItem|Thenable<TreeItem> {
+    return element;
+  }
+
+  getChildren(): ProviderResult<TreeItem[]> {
+      return this.data;
+  }
+
+  refresh(): void {
+    this._onDidChangeTreeData.fire(undefined);
+  }
+
+}
+
+class ShortcutTreeItem extends TreeItem {
+  children: TreeItem[]|undefined;
+
+  constructor(command: Command) {
+    super(command.title);
+    this.contextValue = command.title;
+    this.command = command;
+    this.iconPath = path.join(__filename, '..', '..', command.tooltip||'');
+  }
+}
+
+/** Prompts user to reload editor window in order for configuration change to take effect. */
+/** https://stackoverflow.com/questions/47126031/how-to-programmatically-reload-visual-studio-code-window */
+function promptToReloadWindow() {
+  const action = 'Reload';
+
+  window
+    .showInformationMessage(
+      `Reload window in order for change in extension \`${extensionId}\` configuration to take effect.`,
+      action
+    )
+    .then(selectedAction => {
+      if (selectedAction === action) {
+        commands.executeCommand('workbench.action.reloadWindow');
+      }
+    });
 }
